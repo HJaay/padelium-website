@@ -18,3 +18,13 @@ service — this project has no dependency on either.
 ## Endpoints
 
 - `POST /api/waitlist` — adds an email to the waitlist (body `{ "email": "..." }`).
+
+## Maintenance mode
+
+To take the site offline temporarily (e.g. while sorting things out) without
+touching any code, set the `MAINTENANCE_MODE` environment variable to `true`
+in the Vercel project (Settings → Environment Variables), then redeploy — or
+set it in `.env.local` for local dev. Every route serves a static "be right
+back" page with a `503` status instead of the real site. Set it back to
+`false` (or remove it) and redeploy to bring the site back. See
+`src/middleware.ts`.
