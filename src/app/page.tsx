@@ -576,37 +576,75 @@ function PricingCard({
   );
 }
 
-/** Static mockup of the app's live scoreboard overlay for the hero — a
-    simplified stand-in for BroadcastScoreboard.tsx (which needs match state
-    it doesn't make sense to fake here), just enough to show what the
-    overlay looks like. */
-function ScoreboardMock() {
-  const rowStyle: React.CSSProperties = {
-    display: "flex",
-    alignItems: "center",
-    background: "#101014",
-  };
-  const nameStyle: React.CSSProperties = {
-    width: 130,
-    padding: "10px 12px",
-    fontSize: 13,
-    color: "#ededed",
+// Colours/spacing below mirror the app's actual "Dark" scoreboard preset
+// (src/themes/defaultTheme.ts + builtInPresets.ts in the main app) rather
+// than an invented look, so the marketing page shows the real product.
+const BOARD_BG = "#16171c";
+const BOARD_BORDER = "#96969a";
+const BOARD_TEXT = "#ffffff";
+const POINT_BG = "#69686d";
+const SERVER_DOT = "#69686d";
+
+type MockScoreRowProps = {
+  name: string;
+  serving?: boolean;
+  set: string;
+  game: string;
+  point: string;
+};
+
+function MockScoreRow({ name, serving, set, game, point }: MockScoreRowProps) {
+  const numberStyle: React.CSSProperties = {
+    fontSize: 18,
     fontWeight: 600,
-  };
-  const cellStyle: React.CSSProperties = {
-    width: 30,
+    color: BOARD_TEXT,
     textAlign: "center",
-    fontSize: 13,
-    color: "oklch(0.7 0.02 250)",
   };
 
+  return (
+    <div style={{ display: "flex", alignItems: "center", background: BOARD_BG }}>
+      <span
+        className="truncate"
+        style={{
+          width: 180,
+          padding: "6px 12px",
+          fontSize: 15,
+          letterSpacing: "0.025em",
+          color: BOARD_TEXT,
+          fontWeight: 600,
+        }}
+      >
+        {name}
+      </span>
+      <span style={{ width: 20, display: "flex", justifyContent: "center" }}>
+        {serving && (
+          <span
+            aria-hidden
+            style={{ width: 9, height: 9, borderRadius: "50%", background: SERVER_DOT }}
+          />
+        )}
+      </span>
+      <span style={{ ...numberStyle, width: 36 }}>{set}</span>
+      <span style={{ ...numberStyle, width: 36 }}>{game}</span>
+      <span style={{ ...numberStyle, width: 42, padding: "4px 0", background: POINT_BG }}>
+        {point}
+      </span>
+    </div>
+  );
+}
+
+/** Static mockup of the app's live scoreboard overlay for the hero — a
+    simplified stand-in for BroadcastScoreboard.tsx (which needs match state
+    it doesn't make sense to fake here), styled to match the real "Dark"
+    preset's colours, spacing, and typeface. */
+function ScoreboardMock() {
   return (
     <div
       style={{
         borderRadius: 20,
         border: cardBorder,
         background: cardBg,
-        padding: 32,
+        padding: 20,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -614,52 +652,16 @@ function ScoreboardMock() {
     >
       <div
         style={{
-          borderRadius: 10,
+          width: "fit-content",
+          border: `1px solid ${BOARD_BORDER}`,
+          borderRadius: 2,
           overflow: "hidden",
-          border: "1px solid rgba(255,255,255,0.14)",
-          boxShadow: "0 20px 60px -20px oklch(0.55 0.16 250 / 0.45)",
+          fontFamily: "var(--font-oxanium), sans-serif",
+          filter: "drop-shadow(0 20px 60px -20px oklch(0.55 0.16 250 / 0.45))",
         }}
       >
-        <div style={rowStyle}>
-          <span style={nameStyle}>MARTINEZ / RUIZ</span>
-          <span style={{ width: 14 }} />
-          <span style={cellStyle}>6</span>
-          <span style={cellStyle}>4</span>
-          <span style={{ ...cellStyle, background: "oklch(0.6 0.16 250)", color: "#04121f", fontWeight: 700 }}>
-            40
-          </span>
-        </div>
-        <div style={rowStyle}>
-          <span style={nameStyle}>SANCHEZ / VEGA</span>
-          <span
-            aria-hidden
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "oklch(0.72 0.14 245)",
-              marginLeft: 4,
-            }}
-          />
-          <span style={{ width: 8 }} />
-          <span style={cellStyle}>3</span>
-          <span style={cellStyle}>6</span>
-          <span style={{ ...cellStyle, background: "rgba(255,255,255,0.08)", fontWeight: 700 }}>
-            30
-          </span>
-        </div>
-        <div
-          style={{
-            background: "#101014",
-            padding: "5px 10px",
-            fontSize: 10,
-            fontWeight: 600,
-            letterSpacing: "0.04em",
-            color: "oklch(0.72 0.14 245)",
-          }}
-        >
-          @CLUBPADELMADRID
-        </div>
+        <MockScoreRow name="MARTINEZ / RUIZ" set="6" game="4" point="40" />
+        <MockScoreRow name="SANCHEZ / VEGA" serving set="3" game="6" point="30" />
       </div>
     </div>
   );
