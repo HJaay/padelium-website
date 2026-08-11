@@ -55,18 +55,18 @@ const FEATURES: { title: string; body: string; premium?: boolean }[] = [
 const STEPS = [
   {
     n: "1",
-    title: "Score the match",
-    body: "Track the match live, point by point, straight from the sideline.",
+    title: "Overlay the scoreboard",
+    body: "Drop your footage in and Padelium Studio renders a broadcast-style scoreboard on top.",
   },
   {
     n: "2",
-    title: "Overlay the scoreboard",
-    body: "Drop your footage in and Padelium Studio syncs a broadcast-style scoreboard on top.",
+    title: "Score the match",
+    body: "Track the match, point by point, marking highlights as you go.",
   },
   {
     n: "3",
     title: "Export & share",
-    body: "Render an MP4 ready for Instagram, YouTube, or the club group chat.",
+    body: "Render your match ready to upload wherever you want.",
   },
 ];
 
